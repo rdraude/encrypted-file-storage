@@ -1,0 +1,8 @@
+# .gitignore content
+/build/
+*.o
+*.out
+*.exe
+.vscode/
+*.swp
+
