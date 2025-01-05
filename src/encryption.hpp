@@ -6,7 +6,7 @@
 #include <stdexcept>
 
 // Generate a random key for AES encryption
-void generateKey(size_t length = 16, std::string& key); //default length is 16 bytes
+void generateKey(size_t length, std::string& key); //default length is 16 bytes
 
 // Convert binary data to a hex string
 void toHex(const std::vector<unsigned char>& data, std::string& hexString);
