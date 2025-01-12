@@ -55,3 +55,30 @@ void fromHex(const std::string& hex, std::vector<unsigned char>& result) {
     }
     return; //void because we modify result in place
 }
+
+std::vector<unsigned char> encryptAES(const std::vector<unsigned char>& plaintext, const std::string& key) {
+    const size_t AES_BLOCK_SIZE = 16;
+    std::vector<unsigned char> iv(AES_BLOCK_SIZE);  // Direct initialization
+    if (!RAND_bytes(iv.data(), 16)) throw std::runtime_error("IV generation failed");
+
+    if (!RAND_bytes(iv.data(), 16)) 
+        throw std::runtime_error("IV generation failed");
+        
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    if (!ctx) throw std::runtime_error("Context creation failed");
+
+    std::vector<unsigned char> ciphertext(plaintext.size() + 16);  // Extra space for padding
+    int len = 0;
+
+    EVP_EncryptInit_ex(ctx, EVP_aes_128_cbc(), nullptr, (unsigned char*)key.c_str(), iv.data());
+    EVP_EncryptUpdate(ctx, ciphertext.data(), &len, plaintext.data(), plaintext.size());
+    int ciphertext_len = len;
+    EVP_EncryptFinal_ex(ctx, ciphertext.data() + len, &len);
+    ciphertext_len += len;
+
+    ciphertext.resize(ciphertext_len);
+    ciphertext.insert(ciphertext.begin(), iv.begin(), iv.end());  // Prepend IV
+    EVP_CIPHER_CTX_free(ctx);
+
+    return ciphertext;
+}

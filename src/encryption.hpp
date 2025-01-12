@@ -4,6 +4,10 @@
 #include <string>
 #include <random>
 #include <stdexcept>
+#include <openssl/evp.h>
+#include <openssl/rand.h>
+#include <cstring>
+#include <iomanip>
 
 // Generate a random key for AES encryption
 void generateKey(size_t length, std::string& key); //default length is 16 bytes

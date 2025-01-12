@@ -1,7 +1,9 @@
 #include <iostream>
-#include "encryption.hpp"
+#include "../src/encryption.hpp"
+#include <cassert>
 
 int main() {
+
     // Test generateKey function
     std::string key;
     size_t keyLength = 16; // AES key size (in bytes)
@@ -39,6 +41,26 @@ int main() {
     } else {
         std::cout << "Hex conversion test failed!" << std::endl;
     }
+
+    // Test encryption (simple example, will do more when decrypt is implemented)
+    std::vector<unsigned char> plaintext = {'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd'};
+    std::string key2 = "1234567890123456";  // 16-byte key for AES-128
+    std::vector<unsigned char> ciphertext = encryptAES(plaintext, key2);
+
+    // The ciphertext should include the IV, so the length will be the plaintext size + 16 for the IV
+    assert(!ciphertext.empty());  // Ciphertext should not be empty
+    std::cout << "Encryption Completed. Ciphertext length: " << ciphertext.size() << " bytes.\n";
+
+    int count = 0;
+    for (unsigned char byte : ciphertext) {
+        count++;
+    }
+
+    std::cout << "Counted ciphertext elements: " << std::dec << count << std::endl;
+
+    // Test to ensure the IV has 16 elements
+    assert(count == 32);
+    std::cout << "Test passed: ciphertext has 32 elements.\n";
 
     return 0;
 }

@@ -5,5 +5,11 @@
 *.exe
 .vscode/
 *.swp
+test_encryption
 
-src/test_encryption
+# Ignore CMake generated files
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+CTestTestfile.cmake
