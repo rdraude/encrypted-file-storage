@@ -1,6 +1,33 @@
 #include <iostream>
 #include "../src/encryption.hpp"
+#include "../src/securefile.hpp"
 #include <cassert>
+
+void testFileEncryptionDecryption() {
+    std::string inputFilename = "test_input.txt";
+    std::string testContent = "Hello, this is a test file!";
+
+    //Create a test file
+    std::ofstream outFile(inputFilename);
+    outFile << testContent;
+    outFile.close();
+
+    // Encrypt the file
+    std::string key = "1234567890123456";  // 16-byte AES key
+    encryptFile(inputFilename, key);
+
+    // Decrypt the file
+    decryptFile("./encrypted/test_input.txt", key);
+
+    // Read the decrypted file
+    std::ifstream inFile("./decrypted/test_input.txt");
+    std::string decryptedContent((std::istreambuf_iterator<char>(inFile)), std::istreambuf_iterator<char>());
+    inFile.close();
+
+    // Step 5: Compare original and decrypted content
+    assert(testContent == decryptedContent);
+    std::cout << "File encryption and decryption test passed!" << std::endl;
+}
 
 int main() {
     // Test generateKey function
@@ -83,5 +110,7 @@ int main() {
     std::cout << "Non-ASCII plaintext encryption and decryption test passed!\n";
     std::cout << "Encryption and Decryption test with 32-byte key passed!\n";
 
+    // Test file encryption and decryption
+    testFileEncryptionDecryption();
     return 0;
 }

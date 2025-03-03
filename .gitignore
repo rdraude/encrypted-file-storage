@@ -6,6 +6,9 @@
 .vscode/
 *.swp
 test_encryption
+/decrypted/*
+/encrypted/*
+test_input.txt
 
 # Ignore CMake generated files
 CMakeCache.txt
