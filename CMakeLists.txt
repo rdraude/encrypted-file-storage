@@ -1,12 +1,15 @@
 cmake_minimum_required(VERSION 3.10)
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 project(EncryptedFileStorage)
 
-# Add the source files to create an executable
+# Include directories
+include_directories(${OPENSSL_INCLUDE_DIR} src)
+
+# Add the executable
 add_executable(encrypted-file-storage
-    main.cpp
-    encryption.cpp
-    securefile.cpp
+    src/main.cpp
+    src/encryption.cpp
+    src/securefile.cpp
 )
 
 # Link OpenSSL
